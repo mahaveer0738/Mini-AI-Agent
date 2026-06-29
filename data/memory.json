@@ -1,14 +1,6 @@
 [
     {
         "role": "user",
-        "content": "what is my name and where do i study"
-    },
-    {
-        "role": "assistant",
-        "content": "Your name is Mahaveer, and you study at SVNIT Surat."
-    },
-    {
-        "role": "user",
         "content": ""
     },
     {
@@ -38,5 +30,13 @@
     {
         "role": "assistant",
         "content": "That's great to hear your project is going well!\n\nAnd if you'd like to exit, no problem at all. It was good chatting with you, Mahaveer! Feel free to reach out anytime you need assistance.\n\nHave a great rest of your day!"
+    },
+    {
+        "role": "user",
+        "content": "hii"
+    },
+    {
+        "role": "assistant",
+        "content": "Hi there, Mahaveer! Welcome back.\n\nHow can I help you today? Or just wanted to say hi?"
     }
 ]
