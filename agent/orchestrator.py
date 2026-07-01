@@ -1,12 +1,18 @@
 from agent.router import detect_route
-from agent.tools import calculator, task_manager
-from agent.agent import chat_with_gemini
+
+from agent.tools import (
+    calculator,
+    task_manager,
+    chat,
+    memory
+)
 
 # Tool Registry
 TOOLS = {
     "calculator": calculator,
     "task_manager": task_manager,
-    "chat": chat_with_gemini
+    "chat": chat,
+    "memory": memory
 }
 
 
@@ -15,27 +21,36 @@ def run_agent(user_input):
     # Get execution plan from router
     plan = detect_route(user_input)
 
-    # Debug (Optional)
     print("\n========== EXECUTION PLAN ==========")
     print(plan)
     print("====================================\n")
 
-    # Extract steps
     steps = plan["steps"]
 
-    # Store results from every executed tool
     results = []
 
-    # Execute every step
-    for step in steps:
+    if plan.get("parallel"):
 
-        tool = step["tool"]
-        tool_input = step["input"]
+        # (Placeholder)
+        # Later we will execute these with ThreadPoolExecutor
+        for step in steps:
 
-        # Call the correct function dynamically
-        result = TOOLS[tool](tool_input)
+            tool = step["tool"]
+            tool_input = step["input"]
 
-        # Save output
-        results.append(result)
+            result = TOOLS[tool](tool_input)
+
+            results.append(result)
+
+    else:
+
+        for step in steps:
+
+            tool = step["tool"]
+            tool_input = step["input"]
+
+            result = TOOLS[tool](tool_input)
+
+            results.append(result)
 
     return results

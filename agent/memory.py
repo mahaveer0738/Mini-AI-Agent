@@ -3,35 +3,81 @@ import os
 
 MEMORY_FILE = "data/memory.json"
 
-#Load the memory using load function
+
 def load_memory():
-    """Load conversation history from memory.json"""
 
     if not os.path.exists(MEMORY_FILE):
         return []
 
     with open(MEMORY_FILE, "r") as file:
-        return json.load(file)
-    
-#Save the mrmory using dump function
+        try:
+            return json.load(file)
+        except:
+            return []
+
+
 def save_memory(memory):
-    """Save conversation history to memory.json"""
 
     with open(MEMORY_FILE, "w") as file:
         json.dump(memory, file, indent=4)
-        
-#Add messages using append function
-def add_message(role, content):
-    """Add a new message to memory"""
+
+
+def remember(text):
 
     memory = load_memory()
 
     memory.append({
-        "role": role,
-        "content": content
+        "memory": text
     })
 
-    # Keep only the last 10 messages
-    memory = memory[-10:]
-
     save_memory(memory)
+
+    return f"🧠 Remembered: {text}"
+
+
+def recall(query):
+
+    memory = load_memory()
+
+    query = query.lower()
+
+    results = []
+
+    for item in memory:
+
+        if query in item["memory"].lower():
+            results.append(item["memory"])
+
+    if results:
+        return "\n".join(results)
+
+    return "I don't remember anything about that."
+
+
+def memory_tool(user_input):
+
+    lower = user_input.lower()
+
+    if lower.startswith("remember"):
+
+        fact = (
+            user_input
+            .replace("Remember", "")
+            .replace("remember", "")
+            .strip()
+        )
+
+        return remember(fact)
+
+    elif "what do you remember" in lower:
+
+        memory = load_memory()
+
+        if not memory:
+            return "Memory is empty."
+
+        return "\n".join([m["memory"] for m in memory])
+
+    else:
+
+        return recall(user_input)
