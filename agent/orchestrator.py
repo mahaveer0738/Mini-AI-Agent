@@ -1,6 +1,6 @@
-from agent.router import detect_route
 from concurrent.futures import ThreadPoolExecutor
 
+from agent.router import detect_route
 from agent.tools import (
     calculator,
     task_manager,
@@ -8,6 +8,10 @@ from agent.tools import (
     memory,
     extract
 )
+
+# -----------------------------
+# Tool Registry
+# -----------------------------
 
 TOOLS = {
     "calculator": calculator,
@@ -17,41 +21,65 @@ TOOLS = {
     "extract": extract
 }
 
+# Set True only while debugging
+DEBUG = False
+
+
+def execute_step(step):
+    """
+    Execute a single tool safely.
+    """
+
+    tool = step["tool"]
+    tool_input = step["input"]
+
+    try:
+        return TOOLS[tool](tool_input)
+
+    except KeyError:
+        return f"❌ Unknown tool: {tool}"
+
+    except Exception as e:
+        return (
+            f"❌ Tool '{tool}' failed.\n"
+            f"Reason: {str(e)}"
+        )   
+
 def run_agent(user_input):
+    """
+    Main Orchestrator
+    """
 
     # Get execution plan from router
     plan = detect_route(user_input)
+    if plan["intent"] == "error":
+        return [plan["reason"]]
 
-    print("\n========== EXECUTION PLAN ==========")
-    print(plan)
-    print("====================================\n")
+    if DEBUG:
+        print("\n========== EXECUTION PLAN ==========")
+        print(plan)
+        print("====================================\n")
 
     steps = plan["steps"]
 
-    results = []
+    # -----------------------------
+    # Parallel Execution
+    # -----------------------------
 
     if plan.get("parallel"):
 
-        def execute_step(step):
-
-            tool = step["tool"]
-            tool_input = step["input"]
-
-            return TOOLS[tool](tool_input)
-
         with ThreadPoolExecutor() as executor:
-
             results = list(executor.map(execute_step, steps))
+
+    # -----------------------------
+    # Sequential Execution
+    # -----------------------------
 
     else:
 
+        results = []
+
         for step in steps:
-
-            tool = step["tool"]
-            tool_input = step["input"]
-
-            result = TOOLS[tool](tool_input)
-
-            results.append(result)
+            results.append(execute_step(step))
 
     return results

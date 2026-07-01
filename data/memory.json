@@ -10,5 +10,11 @@
         "type": "profile",
         "key": "college",
         "value": "svnit"
+    },
+    {
+        "id": 3,
+        "type": "fact",
+        "key": "city",
+        "value": "surat"
     }
 ]

@@ -22,36 +22,42 @@ def detect_route(user_input):
 
     # Build router prompt
     router_input = f"""
-    {ROUTER_PROMPT}
+{ROUTER_PROMPT}
 
-    User Request:
-    {user_input}
-    """
-    #print("\n========== ROUTER PROMPT ==========\n")
-   # print(router_input)
-   # print("\n===================================\n")
+User Request:
+{user_input}
+"""
 
-    # Ask Gemini Router
-    response = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=router_input
-    )
+    try:
 
-    router_response = response.text.strip()
+        # Ask Gemini Router
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=router_input
+        )
 
-    router_response = (
-        router_response
-        .replace("```json", "")
-        .replace("```", "")
-        .strip()
-    )
-    #TO check the respose of GEMINI
-   # print("\n========== RAW GEMINI RESPONSE ==========")
-    #print(router_response)
-    #print("=========================================\n")
+        router_response = response.text.strip()
+
+        router_response = (
+            router_response
+            .replace("```json", "")
+            .replace("```", "")
+            .strip()
+        )
+
+    except Exception as e:
+
+        return {
+            "intent": "error",
+            "parallel": False,
+            "steps": [],
+            "confidence": 0.0,
+            "reason": f"Gemini API Error: {e}"
+        }
 
     # Convert JSON string to Python Dictionary
     try:
+
         route = json.loads(router_response)
 
     except json.JSONDecodeError:
