@@ -8,8 +8,6 @@ A modular AI agent powered by Google's Gemini API that intelligently routes user
 
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-A modular AI-powered assistant built with Python and Google's Gemini API.
-
 This project demonstrates an AI agent capable of routing user requests to specialized tools, maintaining long-term memory, managing tasks, performing calculations, extracting structured information, and executing independent tasks in parallel.
 
 ---
