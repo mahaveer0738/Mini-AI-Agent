@@ -1,5 +1,7 @@
 # 🤖 Mini AI Agent
 
+A modular AI agent powered by Google's Gemini API that intelligently routes user requests to specialized tools, supports long-term memory, and executes independent tasks in parallel.
+
 ![Python](https://img.shields.io/badge/Python-3.12-blue)
 
 ![Gemini](https://img.shields.io/badge/Google-Gemini-orange)
@@ -14,15 +16,15 @@ This project demonstrates an AI agent capable of routing user requests to specia
 
 # Features
 
+- 🤖 Intelligent Request Routing
 - 💬 AI Chat
-- 🧮 Calculator
-- ✅ Task Manager
+- 🧮 Safe Mathematical Calculator
+- ✅ Task Management (CRUD)
 - 🧠 Long-Term Memory
-- 📄 Information Extraction
-- 🔀 AI Router
-- ⚡ Parallel Tool Execution
-- 📁 JSON-based Storage
-
+- 📄 Structured Information Extraction
+- ⚡ Parallel Tool Execution using ThreadPoolExecutor
+- 📁 JSON-based Persistent Storage
+- 🛡️ Graceful Error Handling
 ---
 
 # Project Architecture
@@ -116,12 +118,14 @@ Mini-AI-Agent/
 
 # Technologies Used
 
-- Python 3
+- Python 3.12
 - Google Gemini API
 - ThreadPoolExecutor
 - JSON
-- Modular Architecture
 - Prompt Engineering
+- Modular Software Architecture
+- dotenv
+- Git & GitHub
 
 ---
 
