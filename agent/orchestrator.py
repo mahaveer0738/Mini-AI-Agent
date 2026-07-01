@@ -1,20 +1,21 @@
 from agent.router import detect_route
+from concurrent.futures import ThreadPoolExecutor
 
 from agent.tools import (
     calculator,
     task_manager,
     chat,
-    memory
+    memory,
+    extract
 )
 
-# Tool Registry
 TOOLS = {
     "calculator": calculator,
     "task_manager": task_manager,
     "chat": chat,
-    "memory": memory
+    "memory": memory,
+    "extract": extract
 }
-
 
 def run_agent(user_input):
 
@@ -31,16 +32,16 @@ def run_agent(user_input):
 
     if plan.get("parallel"):
 
-        # (Placeholder)
-        # Later we will execute these with ThreadPoolExecutor
-        for step in steps:
+        def execute_step(step):
 
             tool = step["tool"]
             tool_input = step["input"]
 
-            result = TOOLS[tool](tool_input)
+            return TOOLS[tool](tool_input)
 
-            results.append(result)
+        with ThreadPoolExecutor() as executor:
+
+            results = list(executor.map(execute_step, steps))
 
     else:
 

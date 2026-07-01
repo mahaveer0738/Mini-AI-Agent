@@ -117,8 +117,14 @@ Use for:
 
 - Extract structured information
 - Convert text into JSON
+- Extract names
+- Extract emails
+- Extract phone numbers
+- Extract locations
+- Extract dates
 - Summarize into JSON
 
+--------------------------------------------------
 ==================================================
 OUTPUT FORMAT
 ==================================================
@@ -306,6 +312,31 @@ Output:
     "reason":"Greeting and calculation are independent."
 }
 
+--------------------------------------------------
+
+User:
+Extract information from:
+
+John lives in Surat.
+His email is john@gmail.com.
+Phone: 9876543210
+
+Output:
+
+{
+    "intent":"extract",
+    "parallel":false,
+    "steps":[
+        {
+            "step":1,
+            "tool":"extract",
+            "input":"John lives in Surat. His email is john@gmail.com. Phone: 9876543210"
+        }
+    ],
+    "confidence":0.99,
+    "reason":"The user wants structured information extracted."
+}
+--------------------------------------------------
 Always follow the JSON format exactly.
 """
 MEMORY_EXTRACTION_PROMPT = """
@@ -466,6 +497,7 @@ Output:
 }
 
 ==================================================
+
 
 Return ONLY valid JSON.
 """
