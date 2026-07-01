@@ -47,6 +47,41 @@ Extract
 ```
 
 ---
+## 🏗️ Architecture
+
+```mermaid
+flowchart TD
+
+A[User Input]
+
+--> B[Gemini Router]
+
+B --> C[Execution Plan]
+
+C --> D[Orchestrator]
+
+D -->|Sequential| E[Tool Execution]
+
+D -->|Parallel| F[ThreadPoolExecutor]
+
+F --> G[Chat Tool]
+F --> H[Calculator Tool]
+F --> I[Task Manager]
+F --> J[Memory Tool]
+F --> K[Extract Tool]
+
+E --> G
+E --> H
+E --> I
+E --> J
+E --> K
+
+G --> L[Final Response]
+H --> L
+I --> L
+J --> L
+K --> L
+```
 
 # Folder Structure
 
