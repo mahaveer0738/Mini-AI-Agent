@@ -1,4 +1,11 @@
 # 🤖 Mini AI Agent
+# 🤖 Mini AI Agent
+
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+
+![Gemini](https://img.shields.io/badge/Google-Gemini-orange)
+
+![License](https://img.shields.io/badge/License-MIT-green)
 
 A modular AI-powered assistant built with Python and Google's Gemini API.
 
